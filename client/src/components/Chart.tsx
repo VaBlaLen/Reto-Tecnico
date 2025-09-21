@@ -86,7 +86,7 @@ export default function Chart() {
    }, []);
     return (
       <>
-      <ComposedChart width={1200} height={600} data={resp}>
+      <ComposedChart width={1200} height={500} data={resp}>
         <XAxis dataKey="timestamp" type='number' height={50}
             domain={[()=>currentleft, ()=>currentright]} allowDataOverflow
             tick={<CustomizedAxisTick />} />
@@ -101,32 +101,38 @@ export default function Chart() {
           })
         }
       </ComposedChart>
-      <div id="mybrush">
-        <input type="range" min={lowerbound} max={upperbound-3600} value={currentleft} id="leftRange" step={3600}
+      <div id = "brushcontainer">
+        <input className='brushinput' type="text" readOnly value={new Date(currentleft * 1000).toLocaleString()}/>
+        <input className='brushinput' type="text" readOnly value={new Date(currentright* 1000).toLocaleString()}/>
+      </div>
+      <div id="mybrush" className="brush">
+        
+        <input id="from" type="range" min={lowerbound} max={upperbound-3600} value={currentleft} step={3600}
           onInput={
             () =>
               { 
-                let lval = Number((document.getElementById("leftRange") as HTMLInputElement).value)
-                let rval = Number((document.getElementById("rightRange") as HTMLInputElement).value)
+                let lval = Number((document.getElementById("from") as HTMLInputElement).value)
+                let rval = Number((document.getElementById("to") as HTMLInputElement).value)
                 setcurrentleft(lval)
                 setcurrentright(Math.max(rval, lval+3600))
               }
         }></input>
-        <input type="range" min={lowerbound+3600} max={upperbound} value={currentright} id="rightRange" 
+        <input id="to" type="range" min={lowerbound+3600} max={upperbound} value={currentright} step={3600} 
         onInput={
             () =>
               { 
-                let lval = Number((document.getElementById("leftRange") as HTMLInputElement).value)
-                let rval = Number((document.getElementById("rightRange") as HTMLInputElement).value)
+                let lval = Number((document.getElementById("from") as HTMLInputElement).value)
+                let rval = Number((document.getElementById("to") as HTMLInputElement).value)
                 setcurrentleft(Math.min(rval-3600, lval))
                 setcurrentright(rval)
               }
         }></input>
+       
       </div>
       <div id="filter">
         {
           Object.keys(filter).map( (f) => (
-            <label><input type='checkbox' id={f} value={f} checked={filter[f]} onChange={
+            <label className='filterlabel'><input type='checkbox' id={f} value={f} checked={filter[f]} onChange={
               ()=>{
                 const auxfilter = {...filter}
                 auxfilter[f] = !auxfilter[f]
