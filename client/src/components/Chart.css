@@ -1,0 +1,12 @@
+#mybrush, #filter{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+.custom-tooltip {
+    width: fit-content;
+    padding-inline: 1rem;
+    background-color: #444;
+    border: 1px solid white;
+}
