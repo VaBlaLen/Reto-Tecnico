@@ -27,7 +27,6 @@ schema_view = get_schema_view(
       title="Prueba técnica API",
       default_version='v1',
       description="Este APi contiene las dos llamadas necesarias para recuperar los datos de consumo y generacion en un año",
-      license=openapi.License(name="BSD License"),
    ),
    public=True,
    permission_classes=(permissions.AllowAny,),
@@ -37,5 +36,6 @@ urlpatterns = [
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     path('admin/', admin.site.urls),
-    path('', include('apiv1.urls'))
+    path('', include('apiv1.urls')),
+    path('v2/', include('apiv2.urls'))
 ]
